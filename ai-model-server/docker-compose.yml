@@ -1,0 +1,24 @@
+name: 'sfp-ai-model-server'
+services:
+  server:
+    build:
+      context: ./image-build
+      dockerfile: Dockerfile
+    ports:
+      - "20001:80"
+    environment:
+      - TZ=Asia/Seoul
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1g"
+        max-file: "3"
+    volumes:
+      - ./app:/var/www/apache-flask/app
+      - ./train_data:/train_data
+      - ./logs:/logs
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [ "gpu" ]

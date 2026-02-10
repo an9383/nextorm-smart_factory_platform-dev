@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:mysql://106.255.225.250:3468/portal
+    username: dbuser
+    password: dbpass
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+scheduler:
+  tasks-config-location: ${TASKS_CONFIG_LOCATION:classpath:hanaprotech-nissei-tasks.json}
+  
+logging:
+  level:
+    com.nextorm.extensions.scheduler: ${NEXTORM_LOG_LEVEL:DEBUG}

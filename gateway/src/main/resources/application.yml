@@ -1,0 +1,52 @@
+server:
+  port: 9001
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      default-filters:
+        - name: JwtExceptionHandlingFilter
+      routes:
+        - id: permitAllRoute
+          uri: ${PORTAL_URL:http://localhost:8081}
+          predicates:
+            - Path=/api/auth/** , /api/aidas/parameter-report-pdf , /api/meta/system-info , /api/meta/i18n/**
+
+        - id: apcProcessRoute
+          uri: ${APC_PROCESSOR_URL:http://localhost:9091}
+          predicates:
+            - Path=/api/process
+
+        - id: apcSimulationRoute
+          uri: ${APC_PROCESSOR_URL:http://localhost:9091}
+          predicates:
+            - Path=/api/simulation
+          filters:
+            - name: AuthFilter
+
+        - id: apcModelingRoute
+          uri: ${APC_MODELING_URL:http://localhost:8082}
+          predicates:
+            - Path=/api/apc/**
+          filters:
+            - name: AuthFilter
+
+        - id: portalRoute
+          uri: ${PORTAL_URL:http://localhost:8081}
+          predicates:
+            - Path=/**
+          filters:
+            - name: AuthFilter
+
+  auth:
+    jwt:
+      secret-key: bmV4dG9ybV9qd3Rfc2VjcmV0a2V5X2doZGRscmRsc3Jrcw
+      access-token-header-prefix: "Bearer "
+      stomy-token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoiQWlEYXMiLCJpYXQiOjE3MTc5OTIxMzE4MzV9.LIg2fr5hTpHdLHN0rMui1AmycBVesLF9TKtX9KCw5TM"
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    com.nextorm.gateway: DEBUG

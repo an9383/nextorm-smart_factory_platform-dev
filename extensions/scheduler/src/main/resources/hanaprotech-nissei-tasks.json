@@ -1,0 +1,98 @@
+{
+  "nissei-207": {
+    "cron": "*/5 * * * * *",
+    "type": "NISSEI_CSV_READER",
+    "properties": {
+      "csvFilePath": "C:\\b207\\nissei\\MONDAT",
+      "toolName": "nissei_207"
+    }
+  },
+  "nissei-208": {
+    "cron": "*/5 * * * * *",
+    "type": "NISSEI_CSV_READER",
+    "properties": {
+      "csvFilePath": "C:\\b208\\nissei\\MONDAT",
+      "toolName": "nissei_208"
+    }
+  },
+  "nissei-218": {
+    "cron": "*/5 * * * * *",
+    "type": "NISSEI_CSV_READER",
+    "properties": {
+      "csvFilePath": "C:\\b218\\nissei\\MONDAT",
+      "toolName": "nissei_218"
+    }
+  },
+  "nissei-227": {
+    "cron": "*/5 * * * * *",
+    "type": "NISSEI_CSV_READER",
+    "properties": {
+      "csvFilePath": "C:\\b227\\nissei\\MONDAT",
+      "toolName": "nissei_227"
+    }
+  },
+  "nissei-228": {
+    "cron": "*/5 * * * * *",
+    "type": "NISSEI_CSV_READER",
+    "properties": {
+      "csvFilePath": "C:\\b228\\nissei\\MONDAT",
+      "toolName": "nissei_228"
+    }
+  },
+  "nissei-229": {
+    "cron": "*/5 * * * * *",
+    "type": "NISSEI_CSV_READER",
+    "properties": {
+      "csvFilePath": "C:\\b229\\nissei\\MONDAT",
+      "toolName": "nissei_229"
+    }
+  },
+  "nissei-231": {
+    "cron": "*/5 * * * * *",
+    "type": "NISSEI_CSV_READER",
+    "properties": {
+      "csvFilePath": "C:\\b231\\nissei\\MONDAT",
+      "toolName": "nissei_231"
+    }
+  },
+  "nissei-232": {
+    "cron": "*/5 * * * * *",
+    "type": "NISSEI_CSV_READER",
+    "properties": {
+      "csvFilePath": "C:\\b232\\nissei\\MONDAT",
+      "toolName": "nissei_232"
+    }
+  },
+  "nissei-233": {
+    "cron": "*/5 * * * * *",
+    "type": "NISSEI_CSV_READER",
+    "properties": {
+      "csvFilePath": "C:\\b233\\nissei\\MONDAT",
+      "toolName": "nissei_233"
+    }
+  },
+  "nissei-234": {
+    "cron": "*/5 * * * * *",
+    "type": "NISSEI_CSV_READER",
+    "properties": {
+      "csvFilePath": "C:\\b234\\nissei\\MONDAT",
+      "toolName": "nissei_234"
+    }
+  },
+  "nissei-235": {
+    "cron": "*/5 * * * * *",
+    "type": "NISSEI_CSV_READER",
+    "properties": {
+      "csvFilePath": "C:\\b235\\nissei\\MONDAT",
+      "toolName": "nissei_235"
+    }
+  },
+  "nissei-236": {
+    "cron": "*/5 * * * * *",
+    "type": "NISSEI_CSV_READER",
+    "properties": {
+      "csvFilePath": "C:\\b236\\nissei\\MONDAT",
+      "toolName": "nissei_236"
+    }
+  }
+}

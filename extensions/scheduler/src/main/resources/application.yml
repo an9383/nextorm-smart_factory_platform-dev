@@ -1,0 +1,34 @@
+spring:
+  profiles:
+    active: ${ACTIVE_ENV:hana-nissei}
+  
+  datasource:
+    url: ${DB_URL:jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE}
+    username: ${DB_USER:sa}
+    password: ${DB_PASS:1}
+    driver-class-name: ${DB_DRIVER_CLASS_NAME:org.h2.Driver}
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+scheduler:
+  config:
+    pool-size: ${SCHEDULER_POOL_SIZE:10}
+    thread-name-prefix: ${SCHEDULER_THREAD_NAME_PREFIX:Scheduler-}
+
+  #  tasks-config-location: ${TASKS_CONFIG_LOCATION:file:/Users/uyoung/nextorm/smart_factory_platform/extensions/scheduler/tasks.json}
+  tasks-config-location: ${TASKS_CONFIG_LOCATION:classpath:koreawaida-tasks.json}
+  # 설정파일로 하지 않을경우, 아래와 같이 구성하면됨
+#  tasks:
+#    nissei-csv1:
+#      cron: "*/5 * * * * *"
+#      type: nissei_csv_reader
+#      properties:
+#        csvFilePath: /Users/uyoung/nextorm/smart_factory_platform/extensions/scheduler/src/main/resources/csv
+#        toolName: "NISSEI-01"
+
+logging:
+  level:
+    com.nextorm.extensions.scheduler: ${NEXTORM_LOG_LEVEL:DEBUG}

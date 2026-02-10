@@ -1,0 +1,88 @@
+spring:
+
+  main:
+    web-application-type: none
+
+  datasource:
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/ecopeace
+    username: root
+    password: s9200502
+    driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      pool-name: HikariCP
+      max-lifetime: 570000
+      connection-init-sql: SET wait_timeout = 600
+      maximum-pool-size: 10
+      validation-timeout: 10000
+      leak-detection-threshold: 3000
+
+  jpa:
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      naming:
+        strategy: org.hibernate.cfg.ImprovedamingStrategy  # 현재 존재하지 않는 옵션이지만 일단 옮겨둠
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 1000
+    open-in-view: false
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      client-type: lettuce
+
+  mail:
+    host: ${MAIL_HOST:smtp.mailplug.co.kr}
+    port: ${MAIL_PORT:465}
+    username: ${MAIL_USERNAME:system@nextorm.com}
+    password: ${MAIL_PASSWORD:-!sUi6$,x.h1HpPvc0tN}
+    properties:
+      mail.smtp.auth: ${MAIL_SMTP_AUTH:true}
+      mail.smtp.starttls.enable: ${MAIL_SMTP_STARTTSL:true}
+      mail.debug: ${MAIL_DEBUG:false}
+      mail.smtp.ssl.enable: ${MAIL_SMTP_SSL:true}
+
+nextorm:
+  ocap:
+    log-only: ${OCAP_HISTORY_ONLY:true}    # true면, 메일을 보내지 않고 히스토리만 저장한다
+    mail:
+      mail-from: ${OCAP_MAIL_FROM:sfp-dev@nextorm.com}
+
+    sms:
+      access-key: ${NAVER_CLOUD_ACCESS_KEY:ncp_iam_BPAMKRuj3ZjYwYrMQDsX}
+      secret-key: ${NAVER_CLOUD_SECRET_KEY:ncp_iam_BPKMKR2mfNs8ecvQL2QK98DS1fnoX2kRzk}
+      service-id: ${NAVER_CLOUD_SMS_SERVICE_ID:ncp:sms:kr:358412186299:ocap-sms}
+      timestamp-header: ${NAVER_CLOUD_HEADER_TIMESTAMP:x-ncp-apigw-timestamp}
+      access-key-header: ${NAVER_CLOUD_HEADER_ACCESS_KEY:x-ncp-iam-access-key}
+      signature-header: ${NAVER_CLOUD_HEADER_SIGNATURE:x-ncp-apigw-signature-v2}
+      from: ${OCAP_SMS_FROM:025551947}
+      api-url: ${NAVER_CLOUD_SMS_API_URL:https://sens.apigw.ntruss.com/sms/v2/services/${NAVER_CLOUD_SMS_SERVICE_ID:ncp:sms:kr:358412186299:ocap-sms}/messages}
+      signature-url: ${NAVER_CLOUD_SMS_SIGNATURE_URI:/sms/v2/services/${NAVER_CLOUD_SMS_SERVICE_ID:ncp:sms:kr:358412186299:ocap-sms}/messages}
+
+    sns:
+      access-key: ${NAVER_CLOUD_ACCESS_KEY:ncp_iam_BPAMKRuj3ZjYwYrMQDsX}
+      service-id: ${NAVER_CLOUD_SNS_SERVICE_ID:ncp:kkobizmsg:kr:358412192642:ocp-sns}
+      timestamp-header: ${NAVER_CLOUD_HEADER_TIMESTAMP:x-ncp-apigw-timestamp}
+      access-key-header: ${NAVER_CLOUD_HEADER_ACCESS_KEY:x-ncp-iam-access-key}
+      signature-header: ${NAVER_CLOUD_HEADER_SIGNATURE:x-ncp-apigw-signature-v2}
+      plus-friend-id: ${NAVER_CLOUD_PLUS_FRIEND_ID:@nextorm}
+      template-code: ${NAVER_CLOUD_TEMPLATE_CODE:OcapSns}
+      api-url: ${NAVER_CLOUD_SNS_API_URL:https://sens.apigw.ntruss.com/alimtalk/v2/services/${NAVER_CLOUD_SNS_SERVICE_ID:ncp:kkobizmsg:kr:358412192642:ocp-sns}/messages}
+      signature-url: ${NAVER_CLOUD_SNS_SIGNATURE_URI:/alimtalk/v2/services/${NAVER_CLOUD_SNS_SERVICE_ID:ncp:kkobizmsg:kr:358412192642:ocp-sns}/messages}
+
+  ai-server:
+    site-id: ${AI_SERVER_SITE_ID:local}           # ai서버에서 요청 사이트를 식별하기 위한 ID
+    url: ${AI_SERVER_URL:http://localhost:20001}  # ai서버의 URL
+
+
+logging:
+  level:
+    org.hibernate.SQL: ERROR
+    org.hibernate.type: ERROR
+
+    com.zaxxer.hikari: DEBUG

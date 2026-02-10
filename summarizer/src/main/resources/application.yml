@@ -1,0 +1,27 @@
+server:
+  port: 8083
+spring:
+  datasource:
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/ecopeace
+    username: root
+    password: s9200502
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        strategy: org.hibernate.cfg.ImprovedamingStrategy  # 현재 존재하지 않는 옵션이지만 일단 옮겨둠
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        #        highlight_sql: true
+        format_sql: true
+        enable_lazy_load_no_trans: true # OSIV와 같은 계열.. 지울 필요가 있음
+
+logging:
+  level:
+    org:hibernate.SQL: ERROR
+    org.hibernate.type: trace
+#    org.hibernate.orm.jdbc.bind: trace

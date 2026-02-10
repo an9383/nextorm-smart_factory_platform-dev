@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/font-nanum/1.0/nanumgothic/nanumgothic.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.3.0/dist/echarts.min.js"></script>
+    <title>파라미터 데이터 리포트</title>
+    <style>
+        @page {
+            size: A4 landscape; /* A4 크기, 가로 방향 */
+            margin: 20mm; /* 페이지 여백 */
+        }
+
+        body {
+            font-family: 'Nanum Gothic', serif;
+        }
+
+        .report-title {
+            text-align: center;
+        }
+
+        .report-subtitle {
+            margin-top: 30px;
+        }
+
+        .chart-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        #chart {
+            width: 1000px;
+            height: 350px;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 10pt;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .parameter-data-header {
+            page-break-before: always;
+        }
+
+        .parameter-data-group {
+            page-break-inside: avoid;
+            page-break-after: always;
+        }
+
+        .note {
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+<h1 class="report-title">파라미터 데이터 리포트</h1>
+
+<h3 class="report-subtitle">1. 분석조건</h3>
+<table>
+    <tr>
+        <th>기간</th>
+        <td>[[${searchStartDate}]] ~ [[${searchEndDate}]]</td>
+        <th>통계기준</th>
+        <td>[[${periodType}]]</td>
+    </tr>
+    <tr>
+        <th>로봇 위치</th>
+        <td>[[${toolLocation}]]</td>
+        <th>로봇명</th>
+        <td>[[${toolName}]]</td>
+    </tr>
+    <tr>
+        <th>파라미터</th>
+        <td colspan="3">
+        <span th:each="param, i : ${parameterSummaryDatas}"
+              th:text="${i.index == 0 ? '' : ', '} + ${param.parameterName}"></span>
+        </td>
+    </tr>
+</table>
+
+<h3 class="report-subtitle">2. 분석 결과</h3>
+<h4>가. 데이터 차트</h4>
+<div class="chart-container">
+    <div id="chart"></div>
+</div>
+<h4>나. 통계 분석 결과</h4>
+<table>
+    <thead>
+    <tr>
+        <th>파라미터명</th>
+        <th>데이터 타입</th>
+        <th>평균값</th>
+        <th>중간값</th>
+        <th>최소값</th>
+        <th>최대값</th>
+        <th>Control Limit</th>
+        <th>Spec Limit</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="data : ${parameterSummaryDatas}">
+        <td th:text="${data.parameterName}"></td>
+        <td th:text="${data.dataType}"></td>
+        <td th:text="${#numbers.formatDecimal(data.totalAvg, 1, 5)}"></td>
+        <td th:text="${#numbers.formatDecimal(data.median, 1, 5)}"></td>
+        <td th:text="${#numbers.formatDecimal(data.min, 1, 5)}"></td>
+        <td th:text="${#numbers.formatDecimal(data.max, 1, 5)}"></td>
+        <td th:text="${data.controlLimit}"></td>
+        <td th:text="${data.specLimit}"></td>
+    </tr>
+    </tbody>
+</table>
+<h4 class="parameter-data-header">다. 파라미터/[[${periodType}]] 데이터</h4>
+<div class="parameter-data-group" th:each="summaryData,i : ${parameterSummaryDatas}">
+    <span th:text="${#conversions.convert(97+i.index, 'java.lang.Character')}"></span>
+    <span th:text="' . '+${summaryData.parameterName}"></span>
+    <table>
+        <thead>
+        <tr>
+            <th>시작시간</th>
+            <th>종료시간</th>
+            <th>데이터 타입</th>
+            <th>평균값</th>
+            <th>중간값</th>
+            <th>최소값</th>
+            <th>최대값</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="data : ${summaryData.statisticsDatas}">
+            <td th:text="${data.startTime}"></td>
+            <td th:text="${data.endTime}"></td>
+            <td th:text="${summaryData.dataType}"></td>
+            <td th:text="${data.avg}"></td>
+            <td th:text="${data.median}"></td>
+            <td th:text="${data.min}"></td>
+            <td th:text="${data.max}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<h3 class="report-subtitle">3. 비고</h3>
+<p th:if="${note}!=''" class="note">[[${note}]]</p>
+<p th:if="${note}==''">없음</p>
+<script th:inline="javascript">
+    var reportData = [[${parameterSummaryDatas}]];
+</script>
+<script type="text/javascript">
+
+    const groupingName = (summaryData) => {
+        return summaryData.reduce((acc, curr) => {
+            const {name} = curr
+            if (acc[name]) {
+                acc[name].push(curr)
+            } else {
+                acc[name] = [curr]
+            }
+            return acc
+        }, {})
+    }
+    const row = [];
+    reportData.forEach(rowItme => {
+        const statisticsDataList = rowItme.statisticsDatas;
+        statisticsDataList.forEach(data => {
+            row.push({
+                name: rowItme.parameterName,
+                dataType: rowItme.dataType,
+                startTime: data.startTime,
+                endTime: data.endTime,
+                max: data.max,
+                q3: data.q3,
+                median: data.median,
+                q1: data.q1,
+                min: data.min,
+                avg: data.avg,
+                specLimit: rowItme.specLimit,
+                controlLimit: rowItme.controlLimit,
+            })
+        })
+    })
+
+    const groupedData = groupingName(row);
+
+    const boxPlotData = Object.keys(groupedData).map(key => {
+        const seriesData = groupedData[key].map(item => {
+            const xAxisDate = item.startTime;
+            return {x: xAxisDate, y: {min: item.min, q1: item.q1, median: item.median, q3: item.q3, max: item.max}};
+        });
+        return {name: key, seriesData: seriesData};
+    });
+
+
+    var xValueSet = Array.from(
+        new Set(boxPlotData.reduce((prev, curr) => prev.concat(curr.seriesData.map((it) => it.x)), []))
+    );
+
+    var myChart = echarts.init(document.getElementById('chart'), null, {renderer: 'svg'}); //PDF에 출력하기 위해 SVG로 렌더링
+
+    myChart.clear();
+    var option = {
+        legend: {
+            show: true,
+            selectedMode: false,
+            animation: false,
+            textStyle: {
+                fontFamily: 'Nanum Gothic',
+                fontSize: 10,
+            },
+        },
+        tooltip: {},
+        animation: false,
+        xAxis: {
+            type: 'category',
+            data: xValueSet,
+            boundaryGap: true,
+            nameGap: 30,
+            splitArea: {
+                show: true,
+            },
+            splitLine: {
+                show: true,
+            },
+            axisLabel: {
+                textStyle: {
+                    fontFamily: 'Nanum Gothic',
+                }
+            }
+        },
+        yAxis: {
+            type: 'value',
+            splitArea: {
+                show: false,
+            },
+            axisLabel: {
+                textStyle: {
+                    fontFamily: 'Nanum Gothic',
+                }
+            }
+        },
+        series: boxPlotData.map((v) => ({
+            type: 'boxplot',
+            name: v.name,
+            data: v.seriesData.map((it) => {
+                if (!xValueSet.includes(it.x)) {
+                    return [null, null, null, null, null]
+                }
+                const {min, q1, median, q3, max} = it.y
+                return [min, q1, median, q3, max]
+            }),
+        })),
+    };
+    myChart.setOption(option);
+</script>
+</body>
+</html>

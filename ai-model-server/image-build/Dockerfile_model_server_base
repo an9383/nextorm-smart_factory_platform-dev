@@ -1,0 +1,40 @@
+# 158 서버의 쿠다 버전에 맞는 이미지 (12.1.0)
+FROM nvidia/cuda:12.1.0-cudnn8-devel-ubuntu20.04
+
+# 로컬에서 개발할 때, 서버와 쿠다 버전이 맞지 않다면,
+# 위를 주석처리하고 아래와 같이 다른 이미지를 베이스로 빌드하여 사용해야함
+# FROM nvidia/cuda:11.6.1-cudnn8-devel-ubuntu20.04
+
+# Set timezone and locale
+ENV LANG=en_US.UTF-8 \
+    LANGUAGE=en_US:en \
+    LC_ALL=en_US.UTF-8 \
+    PIP_BREAK_SYSTEM_PACKAGES=1 \
+    DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    locales tzdata && \
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
+    locale-gen en_US.UTF-8 && \
+    update-locale LANG=en_US.UTF-8 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install required packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    apache2 \
+    libapache2-mod-wsgi-py3 \
+    build-essential \
+    python3.8 \
+    python3-pip \
+    python3-dev \
+    vim \
+    libgl1-mesa-glx \
+    ffmpeg \
+    libsm6 \
+    libxext6 && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Copy and install Python dependencies
+COPY requirements.txt /var/www/apache-flask/app/requirements.txt
+RUN pip install --no-cache-dir -r /var/www/apache-flask/app/requirements.txt

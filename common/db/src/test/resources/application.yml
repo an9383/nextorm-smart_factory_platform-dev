@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    naming:
+      strategy: org.hibernate.cfg.ImprovedamingStrategy  # 현재 존재하지 않는 옵션이지만 일단 옮겨둠
+      physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: ERROR
+    org.hibernate.type: ERROR

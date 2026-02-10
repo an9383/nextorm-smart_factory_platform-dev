@@ -1,0 +1,44 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/ecopeace
+    username: root
+    password: s9200502
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        #        highlight_sql: true
+        default_batch_fetch_size: 1000
+    open-in-view: false
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+  auth:
+    jwt:
+      secret-key: bmV4dG9ybV9qd3Rfc2VjcmV0a2V5X2doZGRscmRsc3Jrcw
+      access-token-expiration-secs: 600 #10분
+      refresh-token-expiration-secs: 1800 #30분
+      access-token-header: "Authorization"
+      access-token-header-prefix: "Bearer "
+      refresh-token-cookie-name: "REFRESH_TOKEN"
+  web:
+    resources:
+      add-mappings: false
+  jackson:
+    time-zone: Asia/Seoul
+
+logging:
+  level:
+    org.hibernate.SQL: ERROR
+    org.hibernate.type: ERROR
+
+apc:
+  simulation-url: ${APC_PROCESSOR_URL:http://localhost:9091}/api/simulation

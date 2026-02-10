@@ -1,0 +1,21 @@
+server:
+  port: ${PROXY_STATUS_GW_PORT:10001}
+
+
+logging:
+  level:
+    com.nextorm.extensions.proxystatusgateway: ${PROXY_STATUS_GW_LOG_LEVEL:INFO}
+
+# Proxy Status Gateway 설정
+proxy:
+  status:
+    servers:
+      # JSON 설정 파일 경로 (classpath: 접두사 사용 시 리소스 폴더에서 찾음)
+      config-path: ${PROXY_STATUS_GW_CONFIG_PATH:classpath:servers.json}
+    ping:
+      # 핑 타임아웃 (밀리초)
+      timeout: ${PROXY_STATUS_GW_PING_TIMEOUT_MS:1000}
+      # 스케줄링 간격 (밀리초)
+      interval: ${PROXY_STATUS_GW_PING_INTERVAL_MS:1000}
+      # 최대 동시 핑 처리 스레드 수
+      max-concurrent: ${PROXY_STATUS_GW_PING_MAX_CONCURRENT:30}

@@ -1,0 +1,13 @@
+{
+  "건창스치로폴_타수갱신_태스크": {
+    "cron": "0 1,31 * * * *",
+    "type": "KCS",
+    "properties": {
+      "설명용": "매 시간 1분 31분에 실행되어 집계함",
+      "eqmsDbJdbcUrl": "jdbc:mysql://192.168.0.57:3938/portal",
+      "eqmsDbUser": "dbuser",
+      "eqmsDbPassword": "dbpass",
+      "eqmsDbJdbcDriver": "com.mysql.cj.jdbc.Driver"
+    }
+  }
+}

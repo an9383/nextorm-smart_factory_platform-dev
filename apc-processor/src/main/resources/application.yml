@@ -1,0 +1,30 @@
+server:
+  port: 9091
+
+spring:
+  datasource:
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/ecopeace
+    username: root
+    password: s9200502
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+        default_batch_fetch_size: 1000
+    open-in-view: false
+
+logging:
+  level:
+    org.hibernate.SQL: ERROR
+    org.hibernate.type: ERROR
+
+apc:
+  notify:
+    slack:
+      token: ${NOTIFY_SLACK_TOKEN:xoxb-877301326659-7973444440933-h4s1wVINQ5Xo4YRzlErlQ5c8}
+      channel: ${NOTIFY_SLACK_CHANNEL:#apc_test}

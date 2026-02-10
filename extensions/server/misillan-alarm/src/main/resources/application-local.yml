@@ -1,0 +1,60 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      jdbc-url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3307}/alarm
+      username: dbuser
+      password: dbpass
+  jpa:
+    generate-ddl: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: false
+        default_batch_fetch_size: 1000
+        dialect: org.hibernate.dialect.MariaDBDialect
+    open-in-view: false
+
+source:
+  mariadb:
+    host: 192.168.0.56
+    port: 3337
+    database: ecopeace
+    username: dbuser
+    password: dbpass
+    useSSL: false
+    sslMode: DISABLED
+
+  sfp:
+    portal:
+      url: http://misillan.sfp.nextorm.com # ex) 미실란 주소 http://misillan.sfp.nextorm.com
+      id: admin
+      password: admin
+
+  eqms:
+    portal:
+      url: http://misillan.nextorm.com
+      id: sffa
+      password: admin
+
+cdc:
+  enabled: true
+  data-dir: ./00_ignores/cdc-data
+
+alarm:
+  interval-seconds: ${ALARM_INTERVAL_SECONDS:60}
+
+scheduler:
+  sfp-sync:
+    cron: ${SFP_SYNC_CRON:0 0/1 * * * *} # 1분마다
+  eqms-sync:
+    cron: ${EQMS_SYNC_CRON:0 0/1 * * * *} # 1분마다
+  alarm-detect-condition-refresh:
+    cron: ${ALARM_DETECT_CONDITION_REFRESH_CRON:0 0/1 * * * *} # 1분마다
+
+logging:
+  level:
+    io.debezium: INFO
+    io.debezium.connector.mariadb: DEBUG

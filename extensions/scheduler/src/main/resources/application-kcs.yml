@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://${KCS_DB_HOST:192.168.0.56}:${KCS_DB_PORT:3347}/ecopeace
+    username: dbuser
+    password: dbpass
+    driver-class-name: org.mariadb.jdbc.Driver
+
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+scheduler:
+  tasks-config-location: ${TASKS_CONFIG_LOCATION:classpath:kcs-tasks.json}
+
+logging:
+  level:
+    com.nextorm.extensions.scheduler: ${NEXTORM_LOG_LEVEL:DEBUG}

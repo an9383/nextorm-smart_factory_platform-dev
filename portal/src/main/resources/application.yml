@@ -1,0 +1,83 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/ecopeace
+    username: root
+    password: s9200502
+    driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      maximum-pool-size: 40
+      minimum-idle: 20
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        #        highlight_sql: true
+        default_batch_fetch_size: 1000
+    open-in-view: false
+    generate-ddl: true
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 500MB
+  auth:
+    jwt:
+      secret-key: bmV4dG9ybV9qd3Rfc2VjcmV0a2V5X2doZGRscmRsc3Jrcw
+      access-token-expiration-secs: ${ACCESS_TOKEN_LIFE_TIME_SEC:600} #10분
+      refresh-token-expiration-secs: ${REFRESH_TOKEN_LIFE_TIME_SEC:1800} #30분
+      access-token-header: "Authorization"
+      access-token-header-prefix: "Bearer "
+      refresh-token-cookie-name: "REFRESH_TOKEN"
+      collector-api-token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoiIENvbGxlY3RvciIsImlhdCI6MTcxNzk5MjEzMTgzNX0._YXcCp85M5yuIlruU2fg2SSdMI7uj_q5yDeCTCgMInc"
+      collector-api-uri:
+        - "/api/config/collector"
+        - "/api/config/collector/type-definition"
+      aidas-api-token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoiQWlEYXMiLCJpYXQiOjE3MTc5OTIxMzE4MzV9.LIg2fr5hTpHdLHN0rMui1AmycBVesLF9TKtX9KCw5TM"
+      aidas-api-uri:
+        - "/api/tools"
+        - "/api/parameters"
+        - "/api/widget-mgt/tool-status-data/*"
+        - "/api/aidas/**"
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      client-type: lettuce
+
+# 초 분 시 일 월 요일
+scheduler:
+  cron:
+    delete-expired-refresh-token: 0 0 0/1 * * * # 매 1시간마다
+
+logging:
+  level:
+    org.hibernate.SQL: ERROR
+    org.hibernate.type: ERROR
+
+openai:
+  assistant:
+    id: asst_9gtJ5qRk4yDPds8pJ8GFgTg3
+    api-key: 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
+
+weather:
+  service-key: UQN+rA/VgaI8qUd6BqbfaTBT2qJoyYLAnx74UIILH0QOXgcJmX7w9oXX6UvxJz90ViITfbYlvrjZjspVY+1c1w==
+
+deep-l:
+  service-key: 970aebe7-944e-49c2-b495-ab57f527d05c:fx
+
+kakao:
+  service-key: 70f22993d19540c584d0e39889cd8884
+
+nextorm:
+  ai-server:
+    site-id: ${AI_SERVER_SITE_ID:local}           # ai서버에서 요청 사이트를 식별하기 위한 ID
+    url: ${AI_SERVER_URL:http://localhost:20001}  # ai서버의 URL
+  eqms:
+    url: ${EQMS_URL:http://localhost:8080}                   # EQMS 서버의 URL
+    api-key-header: ${EQMS_API_KEY_HEADER:X-NEXTORM-API-KEY}  # EQMS 서버에 API KEY를 전달할 헤더 이름
+    api-key: ${EQMS_API_KEY:nextorm_eqms_api_key}             # EQMS 서버의 API KEY

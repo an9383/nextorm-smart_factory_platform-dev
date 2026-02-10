@@ -1,0 +1,12 @@
+{
+  "sodick-production-reset": {
+    "cron": "0 0 6,18 * * *",
+    "type": "MODBUS_COIL_PULSE",
+    "properties": {
+      "host": "121.136.191.109",
+      "port": 517,
+      "unitId": 1,
+      "addresses": "0, 2, 4, 6, 8, 10, 12, 14, 16, 18"
+    }
+  }
+}

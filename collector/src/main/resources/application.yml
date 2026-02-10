@@ -1,0 +1,35 @@
+spring:
+
+  main:
+    web-application-type: none
+
+  datasource:
+    url: jdbc:mariadb://${DB_HOST:localhost}:${DB_PORT:3306}/ecopeace
+    username: root
+    password: s9200502
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    generate-ddl: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 1000
+    open-in-view: false
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+
+
+collector:
+  photo:
+    base-directory: ${PHOTO_BASE_DIR:./frontend/public/img/ext/photo}
+
+portal:
+  api-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoiIENvbGxlY3RvciIsImlhdCI6MTcxNzk5MjEzMTgzNX0._YXcCp85M5yuIlruU2fg2SSdMI7uj_q5yDeCTCgMInc

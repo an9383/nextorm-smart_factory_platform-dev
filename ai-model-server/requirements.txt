@@ -1,0 +1,10 @@
+Flask
+pandas==1.4.2
+numpy==1.19.4
+pymysql
+matplotlib==3.5.2
+scikit-learn==1.0.2
+keras==2.3.1
+tensorflow-gpu==2.5.3
+opencv-python
+protobuf==3.20.1
