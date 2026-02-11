@@ -30,5 +30,5 @@ portal:
   api-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbklkIjoiIENvbGxlY3RvciIsImlhdCI6MTcxNzk5MjEzMTgzNX0._YXcCp85M5yuIlruU2fg2SSdMI7uj_q5yDeCTCgMInc
 
 mongodb:
-  url: mongodb://admin1:tlsgmd12@121.145.75.134:27017/MTLINKi
+  url: mongodb://admin1:tlsgmd12@127.0.0.1:27017/MTLINKi
   dbName: MTLINKi
