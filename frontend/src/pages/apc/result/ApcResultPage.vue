@@ -105,6 +105,7 @@ import DateTimeRangeSection from 'components/form/dateTime/DateTimeRangeSection.
 import { storeToRefs } from 'pinia'
 import { useAPCStore } from 'src/stores/apc'
 import { computed, ref } from 'vue'
+// eslint-disable-next-line no-unused-vars
 import { date } from 'quasar'
 import { useI18n } from 'vue-i18n'
 import Formula from 'pages/apc/model/Formula.vue'
@@ -119,11 +120,17 @@ const { t } = useI18n()
 const { apcConditions } = storeToRefs(apcStore)
 const ui = useUI()
 
-const now = new Date()
+//const now = new Date()
 const searchPeriod = ref({
-  from: date.subtractFromDate(now, { days: 7 }),
-  to: now,
+  from: '2024-11-07 09:56',
+  to: '2024-11-07 15:24',
 })
+
+// const now = new Date()
+// const searchPeriod = ref({
+//   from: date.subtractFromDate(now, { days: 7 }),
+//   to: now,
+// })
 
 const defaultFormData = computed(() =>
   apcConditions.value.reduce((prev, curr) => ({ ...prev, [curr.key]: undefined }), {}),
@@ -133,7 +140,7 @@ const formData = ref(defaultFormData.value)
 const rows = ref([])
 const resultRows = ref([])
 const selected = ref([])
-const isIncludeSimulation = ref(false)
+const isIncludeSimulation = ref(true)
 
 const columns = computed(() => [
   //Apc 조건으로 컬럼 동적 구성

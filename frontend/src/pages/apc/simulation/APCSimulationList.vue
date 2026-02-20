@@ -82,6 +82,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+// eslint-disable-next-line no-unused-vars
 import { date } from 'quasar'
 import { storeToRefs } from 'pinia'
 import { useAPCStore } from 'src/stores/apc'
@@ -102,11 +103,17 @@ const apcStore = useAPCStore()
 const { apcConditions } = storeToRefs(apcStore)
 const tableRef = ref()
 
-const now = new Date()
+//const now = new Date()
 const searchPeriod = ref({
-  from: date.subtractFromDate(now, { days: 1 }),
-  to: now,
+  from: '2024-11-07 09:37',
+  to: '2024-11-07 15:24',
 })
+
+// const now = new Date()
+// const searchPeriod = ref({
+//   from: date.subtractFromDate(now, { days: 1 }),
+//   to: now,
+// })
 
 const defaultFormData = computed(() =>
   apcConditions.value.reduce((prev, curr) => ({ ...prev, [curr.key]: undefined }), {}),

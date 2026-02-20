@@ -20,7 +20,7 @@ public class KafkaSender implements Sender {
 	 * 200ms 이내에 카프카에 연결이 되어야 한다
 	 */
 	private final Long CONNECTION_TEST_PRODUCER_MAX_BLOCK_MS = 500L;
-	private final long BROKER_CONNECTION_RETRY_DELAY_MS = 5000L;    // 재연결 시도에 5초 대기
+	private final long BROKER_CONNECTION_RETRY_DELAY_MS = 500L;    // 재연결 시도에 5초 대기
 	private final int BROKER_CONNECTION_RETRY_COUNT = 3;
 
 	private final ObjectMapper objectMapper;

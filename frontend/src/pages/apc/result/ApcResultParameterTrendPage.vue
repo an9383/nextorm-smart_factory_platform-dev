@@ -124,11 +124,17 @@ const ui = useUI()
 const apcStore = useAPCStore()
 const { apcConditions } = storeToRefs(apcStore)
 
-const now = new Date()
+const now = new Date('2024-11-11 10:28')
 const searchPeriod = ref({
-  from: date.subtractFromDate(now, { days: 7 }),
+  from: date.subtractFromDate(now, { hour: 1 }),
   to: now,
 })
+
+// const now = new Date()
+// const searchPeriod = ref({
+//   from: date.subtractFromDate(now, { days: 7 }),
+//   to: now,
+// })
 
 const form = ref(null)
 const isShowModelPopup = ref(false)
